@@ -1,0 +1,43 @@
+<!-- chat.component.html -->
+<div *ngFor="let msg of mensajes">
+  <strong>{{ msg.emisor }}:</strong> {{ msg.texto }}
+</div>
+
+<div *ngIf="ultimasOpciones?.length">
+  <button *ngFor="let opcion of ultimasOpciones" (click)="enviar(opcion.texto)">
+    {{ opcion.texto }}
+  </button>
+</div>
+
+
+<input [(ngModel)]="pregunta" (keyup.enter)="enviar(pregunta)" placeholder="Escribe tu pregunta..."/>
+
+
+
+
+<div class="container mt-4">
+  <h3>Registrar nueva pregunta</h3>
+  <form (ngSubmit)="registrarPregunta()" #registroForm="ngForm">
+    
+    <div class="form-group mb-3">
+      <label>Pregunta:</label>
+      <input type="text" class="form-control" [(ngModel)]="registro.pregunta" name="pregunta" required>
+    </div>
+
+    <div class="form-group mb-3">
+      <label>Respuesta:</label>
+      <input type="text" class="form-control" [(ngModel)]="registro.respuesta" name="respuesta" required>
+    </div>
+
+    <div class="form-group mb-3">
+      <label>Opciones (formato JSON, opcional):</label>
+      <textarea class="form-control" [(ngModel)]="registro.opciones" name="opciones" rows="3"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary" [disabled]="registroForm.invalid">Registrar</button>
+  </form>
+
+  <div *ngIf="registroExitoso" class="alert alert-success mt-3">
+    ¡Pregunta registrada exitosamente!
+  </div>
+</div>
