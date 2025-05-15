@@ -1,43 +1,91 @@
-<!-- chat.component.html -->
-<div *ngFor="let msg of mensajes">
-  <strong>{{ msg.emisor }}:</strong> {{ msg.texto }}
-</div>
-
-<div *ngIf="ultimasOpciones?.length">
-  <button *ngFor="let opcion of ultimasOpciones" (click)="enviar(opcion.texto)">
-    {{ opcion.texto }}
-  </button>
-</div>
-
-
-<input [(ngModel)]="pregunta" (keyup.enter)="enviar(pregunta)" placeholder="Escribe tu pregunta..."/>
-
-
-
-
 <div class="container mt-4">
   <h3>Registrar nueva pregunta</h3>
-  <form (ngSubmit)="registrarPregunta()" #registroForm="ngForm">
-    
-    <div class="form-group mb-3">
-      <label>Pregunta:</label>
-      <input type="text" class="form-control" [(ngModel)]="registro.pregunta" name="pregunta" required>
+
+  <form (ngSubmit)="registrarPregunta()" #form="ngForm" class="mb-4">
+    <!-- Pregunta -->
+    <div class="mb-3">
+      <label for="pregunta" class="form-label">Pregunta:</label>
+      <input
+        type="text"
+        id="pregunta"
+        class="form-control"
+        name="pregunta"
+        [(ngModel)]="registro.pregunta"
+        required
+      />
     </div>
 
-    <div class="form-group mb-3">
-      <label>Respuesta:</label>
-      <input type="text" class="form-control" [(ngModel)]="registro.respuesta" name="respuesta" required>
+    <!-- Respuesta -->
+    <div class="mb-3">
+      <label for="respuesta" class="form-label">Respuesta:</label>
+      <input
+        type="text"
+        id="respuesta"
+        class="form-control"
+        name="respuesta"
+        [(ngModel)]="registro.respuesta"
+        required
+      />
     </div>
 
-    <div class="form-group mb-3">
-      <label>Opciones (formato JSON, opcional):</label>
-      <textarea class="form-control" [(ngModel)]="registro.opciones" name="opciones" rows="3"></textarea>
+    <!-- Opciones (opcional) -->
+    <div class="mb-3">
+      <label for="opciones" class="form-label">Opciones (en formato JSON):</label>
+      <textarea
+        id="opciones"
+        class="form-control"
+        name="opciones"
+        [(ngModel)]="registro.opciones"
+        placeholder='[{"texto": "Opción 1", "pregunta": "Subpregunta 1"}]'
+        rows="4"
+      ></textarea>
     </div>
 
-    <button type="submit" class="btn btn-primary" [disabled]="registroForm.invalid">Registrar</button>
+    <!-- Botón enviar -->
+    <button type="submit" class="btn btn-primary" [disabled]="form.invalid">
+      Registrar pregunta
+    </button>
   </form>
 
-  <div *ngIf="registroExitoso" class="alert alert-success mt-3">
-    ¡Pregunta registrada exitosamente!
+  <!-- Mensaje de éxito -->
+  <div *ngIf="registroExitoso" class="alert alert-success" role="alert">
+    Pregunta registrada exitosamente.
   </div>
+  <!-- chatbot.component.html -->
+<div class="chat-container">
+  <div class="chat-box">
+    <div *ngFor="let mensaje of mensajes" [ngClass]="{ 'usuario': mensaje.emisor === 'Usuario', 'bot': mensaje.emisor === 'Bot' }">
+      <strong>{{ mensaje.emisor }}:</strong> {{ mensaje.texto }}
+    </div>
+
+      <!-- Mostrar opciones debajo del último mensaje del bot -->
+      <div *ngIf="ultimasOpciones.length > 0" class="opciones-bot">
+        <button *ngFor="let opcion of ultimasOpciones" (click)="enviar(opcion.pregunta)">
+          {{ opcion.texto }}
+        </button>
+      </div>
+    </div>
+
+    <div class="input-area">
+      <input [(ngModel)]="pregunta" (keyup.enter)="enviar(pregunta)" placeholder="Escribe tu pregunta..." />
+      <button (click)="enviar(pregunta)">Enviar</button>
+    </div>
+  </div>
+
+  <div *ngFor="let mensaje of mensajes">
+  <div *ngIf="mensaje.emisor === 'Usuario'">
+    <strong>🧑‍🎓:</strong> {{ mensaje.texto }}
+  </div>
+  <div *ngIf="mensaje.emisor === 'Chatbot'">
+    <strong>🤖:</strong> {{ mensaje.texto }}
+  </div>
+</div>
+
+<!-- Botones de respuesta rápida -->
+<div *ngIf="ultimasOpciones?.length">
+  <div *ngFor="let opcion of ultimasOpciones">
+    <button (click)="enviar(opcion.pregunta)">{{ opcion.texto }}</button>
+  </div>
+</div>
+
 </div>
