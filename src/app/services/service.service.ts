@@ -6,15 +6,15 @@ import { RespuestaBot } from '../interface/chatbot-interface';
   providedIn: 'root'
 })
 export class ServiceService {
-  private apiUrl = 'http://localhost:8080/api/chatbot/pregunta';
+  private apiUrl = 'http://localhost:8080/api/chatbot';
 
   constructor(private http: HttpClient) { } 
 
-  enviarPregunta(pregunta: string): Observable<RespuestaBot> {
-    return this.http.post<RespuestaBot>(this.apiUrl, { pregunta });
+  enviarPregunta(payload: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/registrar`, payload);
   }
 
-  registrarPregunta(data: { pregunta: string; respuesta: string; opciones?: string }): Observable<any> {
-    return this.http.post('http://localhost:8080/api/chatbot/registrar', data);
+  registrarPregunta(payload: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/registrar`, payload);
   }
 }

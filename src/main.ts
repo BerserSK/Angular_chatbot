@@ -1,8 +1,12 @@
 import { bootstrapApplication } from '@angular/platform-browser';
 import { ChatbotComponent } from './app/components/chatbot/chatbot.component';
 import { provideHttpClient } from '@angular/common/http';
+import { provideRouter } from '@angular/router';
+import { routes } from './app/app.routes';
+import { AppComponent } from './app/app.component';
 
-bootstrapApplication(ChatbotComponent, {
-  providers: [provideHttpClient()] // ✅ moderna y sin deprecaciones
+bootstrapApplication(AppComponent, {
+  providers: [provideHttpClient(), provideRouter(routes)]
 })
-  .catch((err) => console.error(err));
+.catch(err => console.error(err));
+  

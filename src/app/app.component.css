@@ -1,0 +1,29 @@
+.navbar {
+  padding: 1rem;
+  background-color: #f8f9fa;
+}
+
+.nav-link {
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  color: #333;
+  text-decoration: none;
+}
+
+.nav-link.active {
+  font-weight: bold;
+  color: #0d6efd; /* azul bootstrap */
+}
+
+.nav-link {
+      font-weight: 500;
+      font-size: 1.1rem;
+      transition: color 0.3s;
+    }
+    .nav-link.active {
+      color: #ffd54f !important; /* amarillo */
+      font-weight: 700;
+    }
+    .nav-link:hover {
+      color: #ffee58 !important;
+    }
